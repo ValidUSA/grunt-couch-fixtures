@@ -1,4 +1,5 @@
 # grunt-couch-fixtures
+<<<<<<< HEAD
 
 > Sync data fixtures with couchdb
 
@@ -87,3 +88,6 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 _(Nothing yet)_
+=======
+Sync data fixtures with couchdb
+>>>>>>> ed67bb41001b0be6ef960051cab4ea6259bf911e
