@@ -123,14 +123,16 @@ module.exports = function (grunt) {
                     return Promise.all(promArray);
                 })
                 .then((body) => {
+                    let count = 0;
                     body.forEach((bulkResponse) => {
+                        count += bulkResponse[0].length;
                         // console.log("bulk response " + JSON.stringify(bulkResponse[0]));
                     });
                     // Handle options.
                     src += options.punctuation;
 
                     // Print a success message.
-                    grunt.log.writeln('File "' + f.dest + '" created.');
+                    grunt.log.writeln(count + " Samples loaded");
                     done();
                 })
                 .catch((reason) => {
