@@ -7,7 +7,7 @@
  */
 
 "use strict";
-let path = require("path").win32;
+let path = require("path");
 let nano = require("nano");
 let prom = require("nano-promises");
 let url = require("url");
@@ -94,7 +94,7 @@ module.exports = function (grunt) {
                 console.log("file: " + filepath);
                 let parsed = path.parse(filepath);
                 console.log(JSON.stringify(path.parse(filepath)));
-                let dirParsed = parsed.dir.split(path.sep);
+                let dirParsed = parsed.dir.split("/");
                 let db = dirParsed[dirParsed.length - 1];
                 if (!fixturesBulk[db]) {
                     fixturesBulk[db] = [];
