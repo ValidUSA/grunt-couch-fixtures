@@ -7,7 +7,7 @@
  */
 
 "use strict";
-let path = require("path");
+let path = require("path").win32;
 let nano = require("nano");
 let prom = require("nano-promises");
 let url = require("url");
