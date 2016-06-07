@@ -27,7 +27,7 @@ module.exports = function (grunt) {
             let ids = bulkDocs.map((bulkDoc) => {
                 return bulkDoc._id;
             });
-            console.log("ids: " + ids);
+            // console.log("ids: " + ids);
             couchDb.fetchRevs({
                 keys: ids
             })
@@ -50,7 +50,7 @@ module.exports = function (grunt) {
                     });
                 })
                 .catch((reason) => {
-                    console.log("setExistingRecordRevs: " + reason);
+                    console.error("setExistingRecordRevs: " + reason);
                     resolve(bulkDocs);
                 });
         });
@@ -75,7 +75,7 @@ module.exports = function (grunt) {
             user: user,
             pass: pass
         } : null;
-        console.log("options " + JSON.stringify(options));
+        // console.log("options " + JSON.stringify(options));
         let couch = prom(nano(setCouchBasic(couchUrl, user, pass)));
         let fixturesBulk = {};
         // Iterate over all specified file groups.
@@ -91,30 +91,30 @@ module.exports = function (grunt) {
                 }
             }).map(function (filepath) {
                 // Read file source.
-                console.log("file: " + filepath);
+                // console.log("file: " + filepath);
                 let parsed = path.parse(filepath);
-                console.log(JSON.stringify(path.parse(filepath)));
+                // console.log(JSON.stringify(path.parse(filepath)));
                 let dirParsed = parsed.dir.split("/");
                 let db = dirParsed[dirParsed.length - 1];
                 if (!fixturesBulk[db]) {
                     fixturesBulk[db] = [];
                 }
                 fixturesBulk[db].push(JSON.parse(grunt.file.read(filepath)));
-                console.log("db: " + db);
+                // console.log("db: " + db);
                 return grunt.file.read(filepath);
             }).join(grunt.util.normalizelf(options.separator));
 
             // console.log(JSON.stringify(fixturesBulk));
             let promArray = [];
             Object.keys(fixturesBulk).forEach((key) => {
-                console.log("getting revisions for " + key);
+                // console.log("getting revisions for " + key);
                 promArray.push(setExistingRecordRevs(fixturesBulk[key], couch.use(key), key));
             });
             Promise.all(promArray)
                 .then((body) => {
                     promArray = [];
                     body.forEach((bulkDocs) => {
-                        console.log("bulking to " + bulkDocs.db);
+                        // console.log("bulking to " + bulkDocs.db);
                         let db = couch.use(bulkDocs.db);
                         promArray.push(db.bulk({
                             docs: bulkDocs.docs
@@ -124,7 +124,7 @@ module.exports = function (grunt) {
                 })
                 .then((body) => {
                     body.forEach((bulkResponse) => {
-                        console.log("bulk response " + JSON.stringify(bulkResponse[0]));
+                        // console.log("bulk response " + JSON.stringify(bulkResponse[0]));
                     });
                     // Handle options.
                     src += options.punctuation;
